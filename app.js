@@ -3,18 +3,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
+
+// React view engine
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jsx');
+const options = { beautify: true };
+app.engine('jsx', require('express-react-views').createEngine(options));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+/* ------------ Routes ----------- */
+app.get('/', require('./routes').index);
+
+/* ------------ Static Assets ----------- */
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
 module.exports = app;
