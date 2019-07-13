@@ -11,6 +11,7 @@ const FileUploader = {
 
     // method for file upload to server.
     upload: function (req, res, next) {
+
         const busboy = Busboy({ headers: req.headers });
 
         busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
@@ -18,6 +19,7 @@ const FileUploader = {
             // path to file upload
             const saveTo = path.join((path.join(__dirname, "/../../../../uploads/" + filename)));
             console.log('saveTo', saveTo);
+            checkIsFileAlreadyExist(saveTo);
             file.pipe(fs.createWriteStream(saveTo));
         });
 
@@ -27,6 +29,18 @@ const FileUploader = {
         req.pipe(busboy);
 
     }
+}
+function checkIsFileAlreadyExist(path) {
+    const fs = require('fs');
+    fs.access(path, fs.F_OK, (err) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        console.log('File Exist **************************************');
+        
+        //file exists
+    })
 }
 
 module.exports = FileUploader;

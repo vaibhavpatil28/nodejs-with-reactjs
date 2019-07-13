@@ -3,8 +3,20 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+var rfs = require('rotating-file-stream');
+var fs = require('fs');
+
 
 const projectRoute = require('./src/api/project/route/create-project');
+
+var logDirectory = path.join(__dirname, 'log');
+// ensure log directory exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+// create a rotating write stream
+var accessLogStream = rfs('access.log', {
+    interval: '1d', // rotate daily
+    path: logDirectory
+});
 
 const app = express();
 app.use(cors({
@@ -17,7 +29,7 @@ app.set('view engine', 'jsx');
 const options = { beautify: true };
 app.engine('jsx', require('express-react-views').createEngine(options));
 
-app.use(logger('dev'));
+app.use(logger('dev',{ stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
