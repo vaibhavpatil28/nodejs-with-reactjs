@@ -3,11 +3,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-var rfs = require('rotating-file-stream');
-var fs = require('fs');
+const rfs = require('rotating-file-stream');
+const fs = require('fs');
 
 
-const projectRoute = require('./src/api/project/route/create-project');
+const fileHandlerRoute = require('./src/api/file-handle/route/file-handle');
 
 var logDirectory = path.join(__dirname, 'log');
 // ensure log directory exists
@@ -29,7 +29,7 @@ app.set('view engine', 'jsx');
 const options = { beautify: true };
 app.engine('jsx', require('express-react-views').createEngine(options));
 
-app.use(logger('dev',{ stream: accessLogStream }));
+app.use(logger('dev', { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -39,10 +39,9 @@ app.get('/', require('./src/views/routes').index);
 
 /* ------------ Static Assets ----------- */
 app.use(express.static(path.join(__dirname, 'public')));
-module.exports = app;
 
 /* ------------ API Routes ----------- */
-app.use('/api/project', projectRoute);
+app.use('/api/file', fileHandlerRoute);
 
 app.get('/api/sql', (req, res) => {
     var sql = require('mssql');
@@ -76,3 +75,4 @@ app.get('/api/sql', (req, res) => {
             });
     });
 });
+module.exports = app;
