@@ -7,6 +7,7 @@ const rfs = require('rotating-file-stream');
 const fs = require('fs');
 
 
+const createSqlConnection = require('./src/api/create-sql-connection');
 const fileHandlerRoute = require('./src/api/file-handle/route/file-handle');
 
 var logDirectory = path.join(__dirname, 'log');
@@ -34,6 +35,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// connect to database server
+const sql = createSqlConnection();
+
 /* ------------ View Routes ----------- */
 app.get('/', require('./src/views/routes').index);
 
@@ -44,35 +48,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/file', fileHandlerRoute);
 
 app.get('/api/sql', (req, res) => {
-    var sql = require('mssql');
+     // create Request object
+     var request = new sql.Request();
 
-    // config for your database
-    var config = {
-        user: 'sa',
-        password: 'vaibhav@123;',
-        server: 'localhost',
-        database: 'TestData'
-    };
+     // query to the database and get the records
+     request.query(`SELECT ProductID, ProductName, Price, ProductDescription  
+     FROM dbo.Products`, function (err, recordset) {
 
-    // connect to your database
-    sql.connect(config, function (err) {
+             if (err) console.log(err)
 
-        if (err) console.log(err);
-
-        // create Request object
-        var request = new sql.Request();
-
-        // query to the database and get the records
-        request.query(`SELECT ProductID, ProductName, Price, ProductDescription  
-        FROM dbo.Products`, function (err, recordset) {
-
-                if (err) console.log(err)
-
-                // send records as a response
-                res.send(recordset);
-                sql.close();
-                recordset = null;
-            });
-    });
+             // send records as a response
+             res.send(recordset);
+             sql.close();
+             recordset = null;
+         });
 });
 module.exports = app;
