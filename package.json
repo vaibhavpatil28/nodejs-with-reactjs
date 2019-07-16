@@ -3,15 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "start:react": "npx babel --watch src/views --out-dir ./dist --presets react-app/prod"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "busboy": "^0.3.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-react-views": "^0.11.0",
+    "firebase": "^6.3.0",
     "firebase-admin": "^8.2.0",
     "log4js": "^4.5.1",
     "morgan": "~1.9.1",
@@ -21,5 +25,19 @@
     "react-dom": "^16.8.6",
     "rotating-file-stream": "^1.4.2",
     "xlsx": "^0.14.3"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thevaibhavpatil/nodejs-with-reactjs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thevaibhavpatil/nodejs-with-reactjs/issues"
+  },
+  "homepage": "https://github.com/thevaibhavpatil/nodejs-with-reactjs#readme",
+  "description": ""
 }
