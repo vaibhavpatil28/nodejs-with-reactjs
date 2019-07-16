@@ -9,6 +9,7 @@ const fs = require('fs');
 
 const createSqlConnection = require('./src/api/create-sql-connection');
 const fileHandlerRoute = require('./src/api/file-handle/route/file-handle');
+const firebaseRoute = require('./src/api/firebase/route/firebase.router');
 
 var logDirectory = path.join(__dirname, 'log');
 // ensure log directory exists
@@ -31,8 +32,13 @@ const options = { beautify: true };
 app.engine('jsx', require('express-react-views').createEngine(options));
 
 app.use(logger('dev', { stream: accessLogStream }));
+
+// Parse JSON bodies (as sent by API clients)
 app.use(express.json());
+
+// Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 
 // connect to database server
@@ -46,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* ------------ API Routes ----------- */
 app.use('/api/file', fileHandlerRoute);
+app.use('/api/firebase', firebaseRoute);
 
 app.get('/api/sql', (req, res) => {
      // create Request object
