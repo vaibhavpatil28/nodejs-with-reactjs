@@ -8,6 +8,42 @@
 <body>
   <h1>Express</h1>
   <p>Welcome to Express</p>
+  <button onClick="saveDataToFirebase()">Firebase</button>
+  <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-firestore.js"></script>
+  <script>
+    // const firebase = require('firebase');
+    // Required for side-effects
+    // require("firebase/firestore");
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC6HvMKHLFxeo5j6nJ4N3U-6pQqTGR7pl8",
+      authDomain: "nodejswithreactjs.firebaseapp.com",
+      databaseURL: "https://nodejswithreactjs.firebaseio.com",
+      projectId: "nodejswithreactjs",
+      storageBucket: "",
+      messagingSenderId: "937810269817",
+      appId: "1:937810269817:web:baa08fa16c4a2e77"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    function saveDataToFirebase() {
+      console.log('saveDataToFirebase function works!!!!!');
+
+      db.collection("users").add({
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815
+      })
+        .then(function (docRef) {
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        }); test.firestore.js
+    }
+  </script>
 </body>
 
 </html>
