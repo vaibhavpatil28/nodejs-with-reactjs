@@ -62,3 +62,5 @@ typings/
 
 #static data
 uploads/
+
+src/api/firebase/nodejs-with-reactjs-firebase-adminsdk.json
