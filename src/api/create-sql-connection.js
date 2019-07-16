@@ -3,7 +3,8 @@ var sql = require('mssql');
 // config for your database
 var config = {
     user: 'sa',
-    password: '@Angular8;',
+    // password: '@Angular8;',
+    password:'vaibhav@123',
     server: 'localhost',
     database: 'TestData'
 };

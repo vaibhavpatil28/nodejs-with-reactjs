@@ -9,7 +9,7 @@ const fs = require('fs');
 
 const createSqlConnection = require('./src/api/create-sql-connection');
 const fileHandlerRoute = require('./src/api/file-handle/route/file-handle');
-const firebaseRoute = require('./src/api/firebase/route/firebase.router');
+// const firebaseRoute = require('./src/api/firebase/route/firebase.router');
 
 var logDirectory = path.join(__dirname, 'log');
 // ensure log directory exists
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* ------------ API Routes ----------- */
 app.use('/api/file', fileHandlerRoute);
-app.use('/api/firebase', firebaseRoute);
+// app.use('/api/firebase', firebaseRoute);
 
 app.get('/api/sql', (req, res) => {
      // create Request object
